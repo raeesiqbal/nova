@@ -9,8 +9,7 @@
     --dark:#0a1628;
     --dark-2:#0f1d33;
     --dark-3:#1a2740;
-    --gold:#e8a020;
-    --gold-2:#f6b942;
+    --gold:#F68B1E;
     --green:#1a7a4a;
     --green-2:#2aa46a;
     --light:#f4f6f9;
@@ -26,12 +25,13 @@
     --pad-x: 64px;
 
     --f-sans: "Helvetica Neue", Helvetica, Arial, "Segoe UI", system-ui, sans-serif;
+    --f-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
 
     --fs-title:52px;
     --fs-lead:34px;
     --fs-body:16px;
     --fs-small:13.5px;
-    --fs-label:11.5px;
+    --fs-label:12.5px;
     --fs-metric-hero:90px;
     --fs-metric:40px;
     --fs-unit:18px;
@@ -98,7 +98,6 @@
   .dark .sh-title{color:var(--gold)}
   .light .sh-title,.tone .sh-title{color:var(--dark)}
   .sh-title .accent{color:var(--gold)}
-  .sh-dots{color:var(--gold);letter-spacing:0;font-weight:900}
   .sh-sub{
     font-size:var(--fs-label);letter-spacing:var(--track-label);text-transform:uppercase;
     font-weight:800;color:var(--gold);margin-bottom:14px
@@ -163,18 +162,25 @@
   }
   .build .panels span{
     background:linear-gradient(135deg, rgba(36,80,140,.92), rgba(20,40,80,.95));
-    border:1px solid rgba(232,160,32,.35);
+    border:1px solid rgba(246,139,30,.35);
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
   }
   .build .roof-edge{
-    position:absolute;left:0;right:0;bottom:30%;height:2px;background:rgba(232,160,32,.45);
+    position:absolute;left:0;right:0;bottom:30%;height:2px;background:rgba(246,139,30,.45);
   }
   .build .placeholder-tag{
-    position:absolute;top:14px;left:14px;
-    font-family:ui-monospace, "SFMono-Regular", Menlo, monospace;
-    font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
-    color:rgba(255,255,255,.55);background:rgba(0,0,0,.5);
-    padding:5px 9px;border:1px solid rgba(255,255,255,.18);
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    font-family: var(--f-mono);
+    font-size: 13.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .55);
+    background: var(--gold);
+    padding: 5px 9px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    font-weight: 900;
   }
   .build .band{
     position:absolute;left:0;right:0;bottom:0;
@@ -204,7 +210,6 @@
   }
   .hook-mark{
     font-size:0;line-height:.82;font-weight:900;color:var(--gold);
-    font-family: Georgia, "Times New Roman", serif;
     letter-spacing:0;
   }
   .hook-mark::before{content:"\00BB";font-size:88px}
@@ -257,7 +262,7 @@
   .mc.hero .s{color:rgba(10,22,40,.72);font-size:14px}
 
   .mc.hero.hl{
-    background:var(--dark);color:#fff;border:1px solid rgba(232,160,32,.4);
+    background:var(--dark);color:#fff;border:1px solid rgba(246,139,30,.4);
   }
   .mc.hero.hl .l{color:var(--gold)}
   .mc.hero.hl .v{color:var(--gold)}
@@ -330,6 +335,7 @@
   .tl-marks{position:relative;height:46px;margin-top:6px}
   .tl-mark{
     position:absolute;transform:translateX(-50%);top:0;
+    width:190px;
     text-align:center;
   }
   .tl-mark .dot{
@@ -338,12 +344,58 @@
   }
   .tl-mark.gold .dot{background:var(--gold);box-shadow:0 0 0 3px #fff, 0 0 0 4px var(--gold)}
   .tl-mark.green .dot{background:var(--green);box-shadow:0 0 0 3px #fff, 0 0 0 4px var(--green)}
+  .tl-mark.green{
+    transform:translateX(-100%);
+  }
+  .tl-mark.green .dot{
+    margin-left:auto;
+    margin-right:0;
+  }
   .tl-mark .y{font-size:var(--fs-label);letter-spacing:var(--track-label);text-transform:uppercase;font-weight:800;color:var(--dark)}
-  .tl-mark .yy{font-size:18px;font-weight:900;color:var(--dark);line-height:1;margin-top:2px}
+  .tl-mark .yy{
+    font-size:18px;font-weight:600;color:var(--gold);line-height:1.2;margin-top:10px;white-space:nowrap
+  }
   .tl-axis{display:flex;justify-content:space-between;margin-top:14px;font-size:var(--fs-label);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--muted);font-weight:700}
 
   /* ============ CHART ============ */
   .chart-wrap{height:340px;position:relative;background:var(--light);padding:18px;border-top:3px solid var(--gold)}
+
+  /* ============ ANNUAL RETURN DOUGHNUT ============ */
+  .annual-wheel-card{
+    position:relative;
+    flex:1;
+    min-height:935px;
+    margin-top:26px;
+    overflow:hidden;
+    background:transparent;
+  }
+  .annual-wheel-card::before,
+  .annual-wheel-card::after{
+    content:none;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    pointer-events:none;
+  }
+  .annual-wheel-card::before{
+    width:790px;
+    height:790px;
+    border:1px solid rgba(246,139,30,.22);
+  }
+  .annual-wheel-card::after{
+    width:620px;
+    height:620px;
+    border:1px solid rgba(255,255,255,.08);
+  }
+  .annual-wheel-card canvas{
+    position:relative;
+    z-index:1;
+    width:100%!important;
+    height:100%!important;
+    display:block;
+  }
 
   /* ============ SAVINGS TABLE ============ */
   .at{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
@@ -352,11 +404,42 @@
     color:var(--muted);font-weight:800;padding:12px 14px;border-bottom:2px solid var(--dark);
   }
   .at thead th:first-child{text-align:left}
-  .at td{padding:11px 14px;border-bottom:1px solid var(--rule);text-align:right;color:var(--ink-2)}
-  .at td:first-child{text-align:left;color:var(--dark);font-weight:700}
-  .at tr.pos td{color:var(--green);font-weight:700;background:#f3faf6}
-  .at tr.pos td:first-child{color:var(--green)}
-  .at tr.pos td:last-child{color:var(--green);font-weight:800}
+  .at tbody tr{
+    --row-bg:#fff;
+    --row-fg:var(--ink-2);
+    --row-border:rgba(10,22,40,.10);
+    --row-weight:700;
+    --profit-fg:var(--row-fg);
+  }
+  .at td{
+    padding:11px 14px;
+    border-bottom:1px solid var(--row-border);
+    text-align:right;
+    color:var(--row-fg);
+    background:var(--row-bg);
+    font-weight:var(--row-weight);
+  }
+  .at td:first-child{text-align:left;color:var(--row-fg);font-weight:900}
+  .at td:last-child{font-weight:900}
+  .at tbody tr:nth-child(1){--row-bg:#0a1628;--row-fg:#fff;--row-border:rgba(255,255,255,.14)}
+  .at tbody tr:nth-child(2){--row-bg:#3b4453;--row-fg:#fff;--row-border:rgba(255,255,255,.13)}
+  .at tbody tr:nth-child(3){--row-bg:#6c737e;--row-fg:#fff;--row-border:rgba(255,255,255,.12)}
+  .at tbody tr:nth-child(4){--row-bg:#9da2a9;--row-fg:#fff}
+  .at tbody tr:nth-child(5){--row-bg:#ced0d4;--row-fg:#fff}
+  .at tbody tr:nth-child(6){--row-bg:#fdf6e9;--row-fg:#0a1628;--profit-fg:#58b77e}
+  .at tbody tr:nth-child(7){--row-bg:#fbecd1;--row-fg:#0a1628;--profit-fg:#4fb376}
+  .at tbody tr:nth-child(8){--row-bg:#fae2b9;--row-fg:#0a1628;--profit-fg:#46ae6f}
+  .at tbody tr:nth-child(9){--row-bg:#f8d9a2;--row-fg:#0a1628;--profit-fg:#3daa67}
+  .at tbody tr:nth-child(10){--row-bg:#f6cf8a;--row-fg:#0a1628;--profit-fg:#34a55f}
+  .at tbody tr:nth-child(11){--row-bg:#f4c573;--row-fg:#0a1628;--profit-fg:#2ba058}
+  .at tbody tr:nth-child(12){--row-bg:#f1bb5b;--row-fg:#0a1628;--profit-fg:#249850}
+  .at tbody tr:nth-child(13){--row-bg:#efb244;--row-fg:#0a1628;--profit-fg:#1f8f49}
+  .at tbody tr:nth-child(14){--row-bg:#eda82c;--row-fg:#0a1628;--profit-fg:#1c8543}
+  .at tbody tr:nth-child(15){--row-bg:#F68B1E;--row-fg:#0a1628;--profit-fg:#1a7a4a}
+  .at tbody tr:nth-child(n+6) td:first-child,
+  .at tbody tr:nth-child(n+6) td:last-child{
+    color:var(--profit-fg);
+  }
 
   /* monthly grid */
   .mgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
@@ -407,7 +490,6 @@
     display:flex;flex-direction:column;
   }
   .rcard .rn{
-    font-family: Georgia, "Times New Roman", serif;
     font-size:38px;font-weight:900;color:var(--gold);line-height:1;margin-bottom:14px;font-variant-numeric:tabular-nums
   }
   .rcard h5{font-size:18px;font-weight:900;color:#fff;letter-spacing:0;margin-bottom:10px;text-transform:none}
@@ -435,21 +517,27 @@
   .plate.warm{
     background:
       linear-gradient(180deg, rgba(10,22,40,0) 40%, rgba(10,22,40,.9) 100%),
-      repeating-linear-gradient(135deg, #4a3a26 0 16px, #3a2f20 16px 32px);
+      repeating-linear-gradient(135deg, #0a1628 0 16px, #F68B1E 16px 32px);
   }
   .plate-tag{
-    position:absolute;top:14px;left:14px;
-    font-family:ui-monospace, "SFMono-Regular", Menlo, monospace;
-    font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
-    color:rgba(255,255,255,.6);background:rgba(0,0,0,.5);
-    padding:5px 9px;border:1px solid rgba(255,255,255,.18);
+position: absolute;
+    top: 14px;
+    left: 14px;
+    font-family: var(--f-mono);
+    font-size: 13.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .55);
+    background: var(--dark);
+    padding: 5px 9px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    font-weight: 900;
   }
   .plate-quote{
     position:absolute;left:32px;right:32px;bottom:22px;color:#fff;
     display:flex;align-items:flex-end;gap:18px
   }
   .plate-quote .gq{
-    font-family: Georgia, "Times New Roman", serif;
     font-size:64px;line-height:.7;color:var(--gold);font-weight:900
   }
   .plate-quote .qt{font-size:18px;line-height:1.35;font-weight:700;max-width:80%}
@@ -469,8 +557,8 @@
   .cta::before{
     content:"";position:absolute;inset:0;
     background:
-      radial-gradient(circle at 95% 10%, rgba(232,160,32,.12), transparent 40%),
-      radial-gradient(circle at 5% 90%, rgba(232,160,32,.08), transparent 35%);
+      radial-gradient(circle at 95% 10%, rgba(246,139,30,.12), transparent 40%),
+      radial-gradient(circle at 5% 90%, rgba(246,139,30,.08), transparent 35%);
     pointer-events:none;
   }
   .cta-inner{position:relative}
@@ -581,6 +669,29 @@
   .p-annual .at{margin-top:16px}
   .p-annual .at thead th{padding:16px 14px}
   .p-annual .at td{padding:20px 14px;font-size:15px}
+
+  .p-doughnut{background:var(--dark)}
+  .p-doughnut .sec{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    padding:70px 56px 64px;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 50% 55%, rgba(246,139,30,.12), transparent 23%),
+      radial-gradient(circle at 50% 55%, rgba(255,255,255,.055), transparent 42%),
+      linear-gradient(180deg, var(--dark) 0%, var(--dark-2) 100%);
+  }
+  .p-doughnut .sh{
+    margin-bottom:10px;
+  }
+  .p-doughnut .sh-title{
+    color:#fff;
+  }
+  .p-doughnut .sh-sub{
+    margin-left:60px;
+    margin-bottom:0;
+  }
 
   .p-monthly-roof .sec.light{flex:0 0 565px;padding-top:78px;padding-bottom:60px}
   .p-monthly-roof .sec.dark{
@@ -726,7 +837,7 @@
     <div class="cover-eyebrow">Indicative proposal · Roof refurbishment + integrated solar</div>
 
     <div class="build">
-      <div class="placeholder-tag">Visualised site · drone capture + solar overlay</div>
+      <div class="placeholder-tag">Visualised Site + Drone Capture + Solar Overlay</div>
       <div class="panels">
         <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
@@ -762,7 +873,7 @@
   <section class="sec light">
     <div class="sh">
       <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
-      <h2 class="sh-title">The opening case<span class="sh-dots">···</span></h2>
+      <h2 class="sh-title">The opening case</h2>
     </div>
 
     <div class="intro-grid">
@@ -802,7 +913,7 @@
   <section class="sec dark">
     <div class="sh">
       <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
-      <h2 class="sh-title">Summary figures<span class="sh-dots">···</span></h2>
+      <h2 class="sh-title">Summary figures</h2>
     </div>
 
     <div class="metrics">
@@ -844,7 +955,7 @@
   <section class="sec light pdf-no-break">
     <div class="sh">
       <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
-      <h2 class="sh-title">Indicative cost breakdown<span class="sh-dots">···</span></h2>
+      <h2 class="sh-title">Indicative cost breakdown</h2>
     </div>
 
     <table class="ct">
@@ -874,7 +985,7 @@
   <section class="sec tone pdf-no-break">
     <div class="sh">
       <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
-      <h2 class="sh-title">When the investment pays back<span class="sh-dots">···</span></h2>
+      <h2 class="sh-title">When the investment pays back</h2>
     </div>
 
     <div class="badges">
@@ -924,7 +1035,6 @@
           <div class="yy">Year 25</div>
         </div>
       </div>
-      <div class="tl-axis"><span>Year 0</span><span>Year 5</span><span>Year 10</span><span>Year 15</span><span>Year 20</span><span>Year 25</span></div>
     </div>
   </section>
 
@@ -935,7 +1045,7 @@
   <section class="sec light pdf-no-break">
     <div class="sh">
       <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
-      <h2 class="sh-title">Projected solar payback<span class="sh-dots">···</span></h2>
+      <h2 class="sh-title">Projected solar payback</h2>
     </div>
     <div class="sh-sub" style="margin-top:-24px;margin-left:60px">Years 1 to 15 · cumulative savings vs solar investment line</div>
     <div class="chart-wrap"><canvas id="pb-chart"></canvas></div>
@@ -948,9 +1058,9 @@
   <section class="sec tone pdf-no-break">
     <div class="sh">
       <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
-      <h2 class="sh-title">Annual savings projection<span class="sh-dots">···</span></h2>
+      <h2 class="sh-title">Annual savings projection</h2>
     </div>
-    <div class="sh-sub" style="margin-top:-24px;margin-left:60px">Years 1 to 15 · green rows indicate the project is in net financial return</div>
+    <div class="sh-sub" style="margin-top:-24px;margin-left:60px">Years 1 to 15 · navy rows recover cost, gold rows show net financial return</div>
 
     <table class="at">
       <thead><tr><th>Period</th><th>Annual saving</th><th>Cumulative saving</th><th>Net vs solar cost</th></tr></thead>
@@ -976,12 +1086,28 @@
 
   </div>
 
+  <div class="pdf-page p-doughnut" id="return-visual">
+  <!-- ======================== ANNUAL SAVINGS DOUGHNUT ======================== -->
+  <section class="sec dark pdf-no-break">
+    <div class="sh">
+      <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
+      <h2 class="sh-title">Annual return by year</h2>
+    </div>
+    <div class="sh-sub">Annual savings by year · highlighted wedges mark calculated payback milestones</div>
+
+    <div class="annual-wheel-card">
+      <canvas id="annual-return-doughnut"></canvas>
+    </div>
+  </section>
+
+  </div>
+
   <div class="pdf-page p-monthly-roof">
   <!-- ======================== MONTHLY GENERATION ======================== -->
   <section class="sec light pdf-no-break">
     <div class="sh">
       <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
-      <h2 class="sh-title">Indicative monthly generation<span class="sh-dots">···</span></h2>
+      <h2 class="sh-title">Indicative monthly generation</h2>
     </div>
     <div class="sh-sub" style="margin-top:-24px;margin-left:60px">Estimated kWh and £ saving per month · highlighted months are peak yield</div>
 
@@ -1005,7 +1131,7 @@
   <section class="sec dark pdf-no-break">
     <div class="sh">
       <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
-      <h2 class="sh-title">A roof that earns its keep<span class="sh-dots">···</span></h2>
+      <h2 class="sh-title">A roof that earns its keep</h2>
     </div>
     <p class="roi-lead">
       The roof refurbishment at this site is not a maintenance cost in isolation. It is the structural platform that makes the solar installation viable.
@@ -1022,7 +1148,7 @@
   <section class="sec light">
     <div class="sh">
       <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
-      <h2 class="sh-title">Your lease obligations<span class="sh-dots">···</span></h2>
+      <h2 class="sh-title">Your lease obligations</h2>
     </div>
     <div class="sh-sub" style="margin-top:-24px;margin-left:60px">Full repairing leases · understanding your legal position</div>
 
@@ -1058,7 +1184,7 @@
   <section class="sec tone pdf-no-break">
     <div class="sh">
       <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
-      <h2 class="sh-title">The cost of inaction<span class="sh-dots">···</span></h2>
+      <h2 class="sh-title">The cost of inaction</h2>
     </div>
     <div class="sh-sub" style="margin-top:-24px;margin-left:60px">A deteriorating roof is not a passive risk</div>
 
@@ -1164,11 +1290,12 @@
   var costLine=new Array(15).fill(43875);
 
   // Highlight bars that are past payback
-  var bg = cum.map(function(v){ return v >= 43875 ? '#1a7a4a' : '#e8a020'; });
-  var bd = cum.map(function(v){ return v >= 43875 ? '#1a7a4a' : '#e8a020'; });
+  var bg = cum.map(function(v){ return v >= 43875 ? '#1a7a4a' : '#F68B1E'; });
+  var bd = cum.map(function(v){ return v >= 43875 ? '#1a7a4a' : '#F68B1E'; });
 
   var ctx = document.getElementById('pb-chart');
   if(!ctx || typeof Chart === 'undefined') return;
+  var chartFontFamily = getComputedStyle(document.documentElement).getPropertyValue('--f-sans').trim();
 
   new Chart(ctx, {
     type:'bar',
@@ -1209,7 +1336,7 @@
           align:'end',
           labels:{
             color:'#0a1628',
-            font:{family:'Helvetica Neue, Helvetica, Arial, sans-serif', size:11.5, weight:'800'},
+            font:{family:chartFontFamily, size:11.5, weight:'800'},
             usePointStyle:true,
             pointStyle:'rectRounded',
             boxWidth:10,
@@ -1219,7 +1346,7 @@
         tooltip:{
           displayColors:false,
           backgroundColor:'#0a1628',
-          titleColor:'#e8a020',
+          titleColor:'#F68B1E',
           bodyColor:'#ffffff',
           padding:12,
           titleFont:{size:13.5, weight:'800'},
@@ -1243,6 +1370,201 @@
           },
           grid:{color:'rgba(10,22,40,0.06)'},
           border:{display:false}
+        }
+      }
+    }
+  });
+})();
+
+(function(){
+  var ctx = document.getElementById('annual-return-doughnut');
+  if(!ctx || typeof Chart === 'undefined') return;
+
+  var rootStyle = getComputedStyle(document.documentElement);
+  var chartFontFamily = rootStyle.getPropertyValue('--f-sans').trim() || 'Helvetica Neue, Helvetica, Arial, sans-serif';
+  var dark = rootStyle.getPropertyValue('--dark').trim() || '#0a1628';
+  var dark2 = rootStyle.getPropertyValue('--dark-2').trim() || '#0f1d33';
+  var gold = rootStyle.getPropertyValue('--gold').trim() || '#F68B1E';
+
+  var annualSavings = [6600,7062,7556,8085,8651,9257,9905,10598,11340,12134,12983,13892,14864,15905,17018];
+  var labels = annualSavings.map(function(_, index){ return 'Year ' + (index + 1); });
+  var goldScale = [
+    '#c98a00','#d19005','#d69608','#db9b0b','#e0a00f',
+    '#e4a512','#e7a916','#eaad1a','#edb01d','#f0b321',
+    '#f2b725','#f4bb2d','#f6bf36','#f8c442','#facb50'
+  ];
+
+  function distributeLabels(items, top, bottom, gap){
+    items.sort(function(a,b){ return a.y - b.y; });
+    items.forEach(function(item, index){
+      item.y = Math.max(item.y, top);
+      if(index > 0) item.y = Math.max(item.y, items[index - 1].y + gap);
+    });
+    for(var i = items.length - 1; i >= 0; i--){
+      items[i].y = Math.min(items[i].y, bottom);
+      if(i < items.length - 1) items[i].y = Math.min(items[i].y, items[i + 1].y - gap);
+    }
+  }
+
+  var annualReturnLabels = {
+    id:'annualReturnLabels',
+    beforeDatasetDraw:function(chart){
+      if(chart.canvas.id !== 'annual-return-doughnut') return;
+      var canvasCtx = chart.ctx;
+      canvasCtx.save();
+      canvasCtx.shadowColor = 'rgba(0,0,0,.44)';
+      canvasCtx.shadowBlur = 22;
+      canvasCtx.shadowOffsetY = 16;
+    },
+    afterDatasetDraw:function(chart){
+      if(chart.canvas.id !== 'annual-return-doughnut') return;
+      chart.ctx.restore();
+    },
+    afterDatasetsDraw:function(chart){
+      if(chart.canvas.id !== 'annual-return-doughnut') return;
+      var canvasCtx = chart.ctx;
+      var arcs = chart.getDatasetMeta(0).data;
+      if(!arcs || !arcs.length) return;
+
+      var cx = arcs[0].x;
+      var cy = arcs[0].y;
+      var inner = arcs[0].innerRadius;
+      var outer = arcs[0].outerRadius;
+      var topLimit = chart.chartArea.top + 34;
+      var bottomLimit = chart.chartArea.bottom - 34;
+      var sideGap = 42;
+      var labelItems = {left:[], right:[]};
+
+      arcs.forEach(function(arc, index){
+        var angle = (arc.startAngle + arc.endAngle) / 2;
+        var side = Math.cos(angle) >= 0 ? 'right' : 'left';
+        var normalized = (annualSavings[index] - annualSavings[0]) / (annualSavings[annualSavings.length - 1] - annualSavings[0]);
+        var labelRadius = outer + 22 + normalized * 16;
+        labelItems[side].push({
+          index:index,
+          angle:angle,
+          side:side,
+          x:cx + Math.cos(angle) * labelRadius,
+          y:cy + Math.sin(angle) * labelRadius,
+          normalized:normalized
+        });
+      });
+
+      distributeLabels(labelItems.left, topLimit, bottomLimit, sideGap);
+      distributeLabels(labelItems.right, topLimit, bottomLimit, sideGap);
+
+      canvasCtx.save();
+      ['left','right'].forEach(function(side){
+        labelItems[side].forEach(function(item){
+          var valueSize = 16 + item.normalized * 9.5;
+          var amountLabel = '\u00A3' + annualSavings[item.index].toLocaleString();
+
+          canvasCtx.textAlign = side === 'right' ? 'left' : 'right';
+          canvasCtx.textBaseline = 'middle';
+          canvasCtx.shadowColor = 'rgba(0,0,0,.46)';
+          canvasCtx.shadowBlur = 10;
+          canvasCtx.shadowOffsetY = 4;
+          canvasCtx.fillStyle = '#ffffff';
+          canvasCtx.font = '900 ' + valueSize.toFixed(1) + 'px ' + chartFontFamily;
+          var measuredWidth = canvasCtx.measureText(amountLabel).width;
+          var textX = side === 'right' ? item.x + 6 : item.x - 6;
+          if(side === 'right') textX = Math.min(textX, chart.width - measuredWidth - 18);
+          if(side === 'left') textX = Math.max(textX, measuredWidth + 18);
+          canvasCtx.fillText(amountLabel, textX, item.y);
+          canvasCtx.shadowBlur = 0;
+          canvasCtx.shadowOffsetY = 0;
+        });
+      });
+
+      arcs.forEach(function(arc, index){
+        var angle = (arc.startAngle + arc.endAngle) / 2;
+        var normalized = (annualSavings[index] - annualSavings[0]) / (annualSavings[annualSavings.length - 1] - annualSavings[0]);
+        var bubbleRadius = 15 + normalized * 8.5;
+        var x = cx + Math.cos(angle) * ((inner + outer) / 2);
+        var y = cy + Math.sin(angle) * ((inner + outer) / 2);
+
+        canvasCtx.beginPath();
+        canvasCtx.arc(x, y, bubbleRadius, 0, Math.PI * 2);
+        canvasCtx.fillStyle = '#fff7e8';
+        canvasCtx.shadowColor = 'rgba(0,0,0,.26)';
+        canvasCtx.shadowBlur = 10;
+        canvasCtx.shadowOffsetY = 5;
+        canvasCtx.fill();
+        canvasCtx.shadowBlur = 0;
+        canvasCtx.shadowOffsetY = 0;
+        canvasCtx.lineWidth = 1.5;
+        canvasCtx.strokeStyle = 'rgba(255,255,255,.92)';
+        canvasCtx.stroke();
+        canvasCtx.fillStyle = dark;
+        canvasCtx.font = '900 ' + (10.5 + normalized * 3.2).toFixed(1) + 'px ' + chartFontFamily;
+        canvasCtx.textAlign = 'center';
+        canvasCtx.textBaseline = 'middle';
+        canvasCtx.fillText('Y' + (index + 1), x, y + .5);
+      });
+
+      canvasCtx.beginPath();
+      canvasCtx.arc(cx, cy, inner - 9, 0, Math.PI * 2);
+      canvasCtx.fillStyle = dark2;
+      canvasCtx.shadowColor = 'rgba(0,0,0,.34)';
+      canvasCtx.shadowBlur = 22;
+      canvasCtx.shadowOffsetY = 10;
+      canvasCtx.fill();
+      canvasCtx.shadowBlur = 0;
+      canvasCtx.shadowOffsetY = 0;
+
+      canvasCtx.textAlign = 'center';
+      canvasCtx.textBaseline = 'middle';
+      canvasCtx.fillStyle = '#ffffff';
+      canvasCtx.font = '900 39px ' + chartFontFamily;
+      canvasCtx.fillText('\u00A3165,852', cx, cy - 17);
+      canvasCtx.fillStyle = gold;
+      canvasCtx.font = '900 10.5px ' + chartFontFamily;
+      canvasCtx.fillText('TOTAL ANNUAL SAVINGS', cx, cy + 20);
+      canvasCtx.fillStyle = 'rgba(255,255,255,.62)';
+      canvasCtx.font = '800 10px ' + chartFontFamily;
+      canvasCtx.fillText('YEARS 1 TO 15', cx, cy + 39);
+      canvasCtx.restore();
+    }
+  };
+
+  new Chart(ctx, {
+    type:'doughnut',
+    plugins:[annualReturnLabels],
+    data:{
+      labels:labels,
+      datasets:[{
+        label:'Annual saving',
+        data:annualSavings,
+        backgroundColor:goldScale,
+        borderColor:dark,
+        borderWidth:4,
+        borderRadius:9,
+        spacing:2,
+        hoverOffset:0
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      animation:false,
+      rotation:-112,
+      cutout:'48%',
+      radius:'94%',
+      layout:{padding:{top:26,right:96,bottom:42,left:96}},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          displayColors:false,
+          backgroundColor:dark,
+          titleColor:gold,
+          bodyColor:'#ffffff',
+          padding:12,
+          titleFont:{family:chartFontFamily,size:12,weight:'900'},
+          bodyFont:{family:chartFontFamily,size:13.5,weight:'700'},
+          callbacks:{
+            title:function(items){return labels[items[0].dataIndex];},
+            label:function(item){return ' Annual saving: \u00A3' + item.parsed.toLocaleString();}
+          }
         }
       }
     }
