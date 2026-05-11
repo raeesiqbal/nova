@@ -1339,146 +1339,33 @@ position: absolute;
   });
 })();
 
-// CLAUDE EDITS HERE: keep this chart data aligned with the visible annual savings table.
-window.NOVA_CHART_DATA = {
-  currency:'\u00A3',
-  yearPrefix:'Year ',
-  shortYearPrefix:'Yr ',
-  annualSavings:[6600,7062,7556,8085,8651,9257,9905,10598,11340,12134,12983,13892,14864,15905,17018],
-  solarInvestment:43875,
-  combinedInvestment:123875
-};
-
-function novaGetChartData(){
-  var source = window.NOVA_CHART_DATA || {};
-  var annualSavings = (source.annualSavings || []).map(function(value){
-    return Number(value);
-  }).filter(function(value){
-    return isFinite(value) && value >= 0;
-  });
-
-  return {
-    currency:source.currency || '\u00A3',
-    yearPrefix:source.yearPrefix || 'Year ',
-    shortYearPrefix:source.shortYearPrefix || 'Yr ',
-    annualSavings:annualSavings,
-    solarInvestment:Number(source.solarInvestment) || 0,
-    combinedInvestment:Number(source.combinedInvestment) || 0
-  };
-}
-
-function novaCumulativeValues(values){
-  var runningTotal = 0;
-  return values.map(function(value){
-    runningTotal += value;
-    return runningTotal;
-  });
-}
-
-function novaFindPaybackIndex(cumulativeValues, target){
-  if(!target || !cumulativeValues.length) return -1;
-  for(var index = 0; index < cumulativeValues.length; index++){
-    if(cumulativeValues[index] >= target) return index;
-  }
-  return -1;
-}
-
-function novaBuildChartContext(){
-  var data = novaGetChartData();
-  var cumulative = novaCumulativeValues(data.annualSavings);
-  var totalSavings = cumulative.length ? cumulative[cumulative.length - 1] : 0;
-
-  return {
-    currency:data.currency,
-    annualSavings:data.annualSavings,
-    cumulative:cumulative,
-    labels:data.annualSavings.map(function(_, index){ return data.yearPrefix + (index + 1); }),
-    shortLabels:data.annualSavings.map(function(_, index){ return data.shortYearPrefix + (index + 1); }),
-    solarInvestment:data.solarInvestment,
-    combinedInvestment:data.combinedInvestment,
-    solarPaybackIndex:novaFindPaybackIndex(cumulative, data.solarInvestment),
-    combinedPaybackIndex:novaFindPaybackIndex(cumulative, data.combinedInvestment),
-    totalSavings:totalSavings
-  };
-}
-
-function novaFormatCurrency(value, currency){
-  return currency + Math.round(value).toLocaleString();
-}
-
-function novaNormalize(value, min, max){
-  if(max <= min) return .5;
-  return Math.max(0, Math.min(1, (value - min) / (max - min)));
-}
-
-function novaMixColor(startHex, endHex, t){
-  function toRgb(hex){
-    var clean = hex.replace('#','');
-    return [
-      parseInt(clean.substring(0,2), 16),
-      parseInt(clean.substring(2,4), 16),
-      parseInt(clean.substring(4,6), 16)
-    ];
-  }
-  var start = toRgb(startHex);
-  var end = toRgb(endHex);
-  var clamped = Math.max(0, Math.min(1, t));
-  return 'rgb(' + start.map(function(channel, index){
-    return Math.round(channel + (end[index] - channel) * clamped);
-  }).join(',') + ')';
-}
-
-function novaBuildWheelColors(context){
-  var solarIndex = context.solarPaybackIndex >= 0 ? context.solarPaybackIndex : context.annualSavings.length;
-  var recoveryCount = Math.max(solarIndex, 1);
-  var returnCount = Math.max(context.annualSavings.length - solarIndex, 1);
-
-  return context.annualSavings.map(function(_, index){
-    if(index < solarIndex){
-      return novaMixColor('#434244', '#c7c6c8', recoveryCount === 1 ? 0 : index / (recoveryCount - 1));
-    }
-    return novaMixColor('#c98a00', '#facb50', returnCount === 1 ? 1 : (index - solarIndex) / (returnCount - 1));
-  });
-}
-
-function novaDistributeLabels(items, top, bottom, gap){
-  items.sort(function(a,b){ return a.y - b.y; });
-  items.forEach(function(item, index){
-    item.y = Math.max(item.y, top);
-    if(index > 0) item.y = Math.max(item.y, items[index - 1].y + gap);
-  });
-  for(var i = items.length - 1; i >= 0; i--){
-    items[i].y = Math.min(items[i].y, bottom);
-    if(i < items.length - 1) items[i].y = Math.min(items[i].y, items[i + 1].y - gap);
-  }
-}
-
 (function(){
+  var labels=['Yr 1','Yr 2','Yr 3','Yr 4','Yr 5','Yr 6','Yr 7','Yr 8','Yr 9','Yr 10','Yr 11','Yr 12','Yr 13','Yr 14','Yr 15'];
+  var cum=[6600,13662,21218,29304,37955,47212,57117,67715,79055,91189,104172,118064,132928,148833,165852];
+  var costLine=new Array(15).fill(43875);
+
+  // Highlight bars that are past payback
+  var bg = cum.map(function(v){ return v >= 43875 ? '#1a7a4a' : '#e8a020'; });
+  var bd = cum.map(function(v){ return v >= 43875 ? '#1a7a4a' : '#e8a020'; });
+
   var ctx = document.getElementById('pb-chart');
   if(!ctx || typeof Chart === 'undefined') return;
-  var context = novaBuildChartContext();
-  if(!context.annualSavings.length) return;
-
   var rootStyle = getComputedStyle(document.documentElement);
   var chartFontFamily = rootStyle.getPropertyValue('--f-sans').trim();
   var dark = rootStyle.getPropertyValue('--dark').trim() || '#434244';
   var ink2 = rootStyle.getPropertyValue('--ink-2').trim() || '#5f5e60';
   var muted = rootStyle.getPropertyValue('--muted').trim() || '#858386';
-  var gold = rootStyle.getPropertyValue('--gold').trim() || '#e8a020';
-  var green = rootStyle.getPropertyValue('--green').trim() || '#1a7a4a';
-  var costLine = context.annualSavings.map(function(){ return context.solarInvestment; });
-  var bg = context.cumulative.map(function(value){ return value >= context.solarInvestment ? green : gold; });
 
   new Chart(ctx, {
     type:'bar',
     data:{
-      labels: context.shortLabels,
+      labels: labels,
       datasets:[
         {
           label:'Cumulative savings',
-          data:context.cumulative,
+          data:cum,
           backgroundColor:bg,
-          borderColor:bg,
+          borderColor:bd,
           borderWidth:0,
           borderSkipped:false,
           borderRadius:0,
