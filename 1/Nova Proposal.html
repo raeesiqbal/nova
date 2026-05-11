@@ -1147,7 +1147,7 @@ position: absolute;
       <div class="sh-chev"><svg viewBox="0 0 42 36"><path d="M0 0 L18 18 L0 36 L8 36 L26 18 L8 0 Z M16 0 L34 18 L16 36 L24 36 L42 18 L24 0 Z"/></svg></div>
       <h2 class="sh-title">Annual return by year</h2>
     </div>
-    <div class="sh-sub">Each segment is sized by the annual saving shown in the table</div>
+    <div class="sh-sub">Years 1 to 5 match the recovery rows; return years continue in gold</div>
 
     <div class="annual-wheel-card">
       <canvas id="annual-return-doughnut"></canvas>
@@ -1447,11 +1447,20 @@ position: absolute;
 
   var annualSavings = [6600,7062,7556,8085,8651,9257,9905,10598,11340,12134,12983,13892,14864,15905,17018];
   var labels = annualSavings.map(function(_, index){ return 'Year ' + (index + 1); });
+  var recoveryYearCount = 5;
+  var recoveryValueScale = .68;
+  var recoveryScale = ['#434244','#555456','#6a686b','#939194','#c7c6c8'];
   var goldScale = [
     '#c98a00','#d19005','#d69608','#db9b0b','#e0a00f',
     '#e4a512','#e7a916','#eaad1a','#edb01d','#f0b321',
     '#f2b725','#f4bb2d','#f6bf36','#f8c442','#facb50'
   ];
+  var chartValues = annualSavings.map(function(value, index){
+    return index < recoveryYearCount ? Math.round(value * recoveryValueScale) : value;
+  });
+  var segmentColors = annualSavings.map(function(_, index){
+    return index < recoveryYearCount ? recoveryScale[index] : goldScale[index];
+  });
 
   function distributeLabels(items, top, bottom, gap){
     items.sort(function(a,b){ return a.y - b.y; });
@@ -1515,7 +1524,8 @@ position: absolute;
       canvasCtx.save();
       ['left','right'].forEach(function(side){
         labelItems[side].forEach(function(item){
-          var valueSize = 16 + item.normalized * 9.5;
+          var isRecoveryYear = item.index < recoveryYearCount;
+          var valueSize = isRecoveryYear ? 13 + item.normalized * 4 : 16 + item.normalized * 9.5;
           var amountLabel = '\u00A3' + annualSavings[item.index].toLocaleString();
 
           canvasCtx.textAlign = side === 'right' ? 'left' : 'right';
@@ -1538,7 +1548,8 @@ position: absolute;
       arcs.forEach(function(arc, index){
         var angle = (arc.startAngle + arc.endAngle) / 2;
         var normalized = (annualSavings[index] - annualSavings[0]) / (annualSavings[annualSavings.length - 1] - annualSavings[0]);
-        var bubbleRadius = 15 + normalized * 8.5;
+        var isRecoveryYear = index < recoveryYearCount;
+        var bubbleRadius = isRecoveryYear ? 12 + normalized * 4 : 15 + normalized * 8.5;
         var x = cx + Math.cos(angle) * ((inner + outer) / 2);
         var y = cy + Math.sin(angle) * ((inner + outer) / 2);
 
@@ -1555,7 +1566,7 @@ position: absolute;
         canvasCtx.strokeStyle = 'rgba(255,255,255,.92)';
         canvasCtx.stroke();
         canvasCtx.fillStyle = dark;
-        canvasCtx.font = '900 ' + (10.5 + normalized * 3.2).toFixed(1) + 'px ' + chartFontFamily;
+        canvasCtx.font = '900 ' + (isRecoveryYear ? 9.2 + normalized * 1.6 : 10.5 + normalized * 3.2).toFixed(1) + 'px ' + chartFontFamily;
         canvasCtx.textAlign = 'center';
         canvasCtx.textBaseline = 'middle';
         canvasCtx.fillText('Y' + (index + 1), x, y + .5);
@@ -1593,8 +1604,8 @@ position: absolute;
       labels:labels,
       datasets:[{
         label:'Annual saving',
-        data:annualSavings,
-        backgroundColor:goldScale,
+        data:chartValues,
+        backgroundColor:segmentColors,
         borderColor:dark,
         borderWidth:4,
         borderRadius:9,
@@ -1622,7 +1633,7 @@ position: absolute;
           bodyFont:{family:chartFontFamily,size:13.5,weight:'700'},
           callbacks:{
             title:function(items){return labels[items[0].dataIndex];},
-            label:function(item){return ' Annual saving: \u00A3' + item.parsed.toLocaleString();}
+            label:function(item){return ' Annual saving: \u00A3' + annualSavings[item.dataIndex].toLocaleString();}
           }
         }
       }
